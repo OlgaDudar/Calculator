@@ -1,12 +1,18 @@
 package com.company;
 
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
-        // create a scanner so we can read the command-line input
+    public static void main(String[] args) throws FileNotFoundException {
+        Date now = new Date();
+        PrintStream fileOut = new PrintStream("./out.txt");
+        PrintStream originalOut = System.out;
         Scanner scanner = new Scanner(System.in);
+        System.setOut(originalOut);
         System.out.print("Enter some for start");
         while (!scanner.next().equals("exit")) {
             System.out.print("Enter operation: add, sub, mult, div ");
@@ -45,8 +51,11 @@ public class Main {
                     break;
             }
 
+            System.out.println(String.format("Result of operation is %d,  For exit enter 'exit', or something for continue", res));
+            System.setOut(fileOut);
+            fileOut.println(String.format("Result of operation is %d "+now, res));
+            System.setOut(originalOut);
 
-                System.out.println(String.format("Result of operation is %d,  For exit enter 'exit', or something for continue", res));
         }
     }
 }
